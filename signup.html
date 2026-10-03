@@ -1,0 +1,786 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 20px;
+        }
+
+        .signup-container {
+            width: 100%;
+            max-width: 430px;
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 7px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="password"] {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 9px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
+        }
+
+        /* Password */
+
+        .password-box {
+            position: relative;
+        }
+
+        .password-box input {
+            padding-right: 60px;
+        }
+
+        .show-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: none;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* Human Verification */
+
+        .verification {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 8px;
+            background: #fafafa;
+        }
+
+        .verify-check {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .verify-check input {
+            width: 19px;
+            height: 19px;
+            cursor: pointer;
+        }
+
+        .captcha {
+            display: none;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid #ddd;
+        }
+
+        .captcha-question {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .captcha-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .captcha-row input {
+            flex: 1;
+            padding: 11px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .refresh-btn {
+            border: none;
+            background: #eee;
+            border-radius: 8px;
+            padding: 0 14px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        /* Terms */
+
+        .terms {
+            display: flex;
+            gap: 9px;
+            align-items: flex-start;
+            margin: 18px 0;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .terms input {
+            margin-top: 2px;
+        }
+
+        .terms a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        /* Create Account */
+
+        .create-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .create-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Login */
+
+        .login {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .login a {
+            color: #667eea;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        /* Forgot Password */
+
+        .forgot-password {
+            text-align: right;
+            margin-top: 7px;
+        }
+
+        .forgot-password a {
+            color: #667eea;
+            font-size: 13px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        /* Message */
+
+        .message {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .success {
+            color: #16833b;
+        }
+
+        .error {
+            color: #d93025;
+        }
+
+        /* Forgot Password Modal */
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            position: relative;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            animation: popup 0.25s ease;
+        }
+
+        @keyframes popup {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .close {
+            position: absolute;
+            right: 18px;
+            top: 12px;
+            font-size: 25px;
+            cursor: pointer;
+            color: #777;
+        }
+
+        .close:hover {
+            color: #222;
+        }
+
+        .modal-content h3 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #222;
+        }
+
+        .modal-content p {
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .reset-btn {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 9px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .reset-message {
+            text-align: center;
+            margin-top: 14px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 480px) {
+            .signup-container {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= SIGNUP ================= -->
+
+<div class="signup-container">
+
+    <div class="logo">MyWebsite</div>
+
+    <h2>Create Account</h2>
+
+    <p class="subtitle">
+        Sign up to get started
+    </p>
+
+    <form id="signupForm">
+
+        <!-- Full Name -->
+
+        <div class="form-group">
+
+            <label for="name">
+                Full Name
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                placeholder="Enter your full name"
+                required
+            >
+
+        </div>
+
+
+        <!-- Email -->
+
+        <div class="form-group">
+
+            <label for="email">
+                Email Address
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="example@gmail.com"
+                required
+            >
+
+        </div>
+
+
+        <!-- Phone -->
+
+        <div class="form-group">
+
+            <label for="phone">
+                Phone Number
+            </label>
+
+            <input
+                type="tel"
+                id="phone"
+                placeholder="Enter 10 digit phone number"
+                pattern="[0-9]{10}"
+                required
+            >
+
+        </div>
+
+
+        <!-- Password -->
+
+        <div class="form-group">
+
+            <label for="password">
+                Password
+            </label>
+
+            <div class="password-box">
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Create a password"
+                    minlength="8"
+                    required
+                >
+
+                <button
+                    type="button"
+                    class="show-password"
+                    onclick="togglePassword('password', this)">
+                    Show
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Confirm Password -->
+
+        <div class="form-group">
+
+            <label for="confirmPassword">
+                Confirm Password
+            </label>
+
+            <div class="password-box">
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    placeholder="Confirm your password"
+                    required
+                >
+
+                <button
+                    type="button"
+                    class="show-password"
+                    onclick="togglePassword('confirmPassword', this)">
+                    Show
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Forgot Password -->
+
+        <div class="forgot-password">
+
+            <a onclick="openForgotPassword()">
+                Forgot Password?
+            </a>
+
+        </div>
+
+
+        <!-- Human Verification -->
+
+        <div class="form-group">
+
+            <label>
+                Human Verification
+            </label>
+
+            <div class="verification">
+
+                <label class="verify-check">
+
+                    <input
+                        type="checkbox"
+                        id="humanCheck"
+                        onchange="showCaptcha()"
+                    >
+
+                    <span>
+                        I'm not a robot
+                    </span>
+
+                </label>
+
+
+                <div
+                    class="captcha"
+                    id="captcha">
+
+                    <div
+                        class="captcha-question"
+                        id="captchaQuestion">
+                        What is 5 + 3?
+                    </div>
+
+                    <div class="captcha-row">
+
+                        <input
+                            type="number"
+                            id="captchaAnswer"
+                            placeholder="Enter answer"
+                        >
+
+                        <button
+                            type="button"
+                            class="refresh-btn"
+                            onclick="generateCaptcha()">
+                            ↻
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Terms -->
+
+        <div class="terms">
+
+            <input
+                type="checkbox"
+                id="terms"
+                required
+            >
+
+            <span>
+
+                I agree to the
+                <a href="#">
+                    Terms & Conditions
+                </a>
+
+                and
+
+                <a href="#">
+                    Privacy Policy
+                </a>.
+
+            </span>
+
+        </div>
+
+
+        <!-- Create Account -->
+
+        <button
+            type="submit"
+            class="create-btn">
+
+            Create Account
+
+        </button>
+
+
+        <div
+            id="message"
+            class="message">
+        </div>
+
+    </form>
+
+
+    <!-- Login -->
+
+    <div class="login">
+
+        Already have an account?
+
+        <a href="login.html">
+            Login
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- ================= FORGOT PASSWORD MODAL ================= -->
+
+<div
+    class="modal"
+    id="forgotModal">
+
+    <div class="modal-content">
+
+        <span
+            class="close"
+            onclick="closeForgotPassword()">
+            &times;
+        </span>
+
+
+        <h3>
+            Forgot Password?
+        </h3>
+
+
+        <p>
+            Enter your registered email address.
+            We will send you instructions to reset
+            your password.
+        </p>
+
+
+        <form id="forgotForm">
+
+            <div class="form-group">
+
+                <label for="resetEmail">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="resetEmail"
+                    placeholder="Enter your email"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="reset-btn">
+
+                Send Reset Link
+
+            </button>
+
+
+            <div
+                id="resetMessage"
+                class="reset-message">
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script type="module">
+import "./auth.js";
+
+let captchaAnswer = 0;
+
+function generateCaptcha() {
+  const a = Math.floor(Math.random() * 10) + 1;
+  const b = Math.floor(Math.random() * 10) + 1;
+  captchaAnswer = Number(a) + Number(b);
+
+  const q = document.getElementById("captchaQuestion");
+  if (q) q.textContent = `What is ${a} + ${b} ?`;
+
+  const input = document.getElementById("captchaAnswer");
+  if (input) {
+    input.value = "";
+    input.focus();
+  }
+}
+
+function showCaptcha() {
+  const checkbox = document.getElementById("humanCheck");
+  const captcha = document.getElementById("captcha");
+  if (!checkbox || !captcha) return;
+
+  if (checkbox.checked) {
+    captcha.style.display = "block";
+    generateCaptcha();
+  } else {
+    captcha.style.display = "none";
+  }
+}
+
+window.generateCaptcha = generateCaptcha;
+window.showCaptcha = showCaptcha;
+showCaptcha();
+
+function togglePassword(id, button) {
+  const input = document.getElementById(id);
+  if (!input) return;
+  input.type = input.type === "password" ? "text" : "password";
+  if (button) button.textContent = input.type === "password" ? "Show" : "Hide";
+}
+window.togglePassword = togglePassword;
+
+const form = document.getElementById("signupForm");
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const message = document.getElementById("message");
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+  const humanCheck = document.getElementById("humanCheck").checked;
+  const captchaRaw = document.getElementById("captchaAnswer").value.trim();
+  const captchaInput = Number(captchaRaw);
+  const terms = document.getElementById("terms").checked;
+
+  const showError = (text) => { message.className = "message error"; message.textContent = text; };
+  if (!humanCheck) return showError("Please confirm that you are human.");
+  if (captchaRaw === "" || !Number.isFinite(captchaInput) || captchaInput !== captchaAnswer) { showError("Incorrect human verification answer. Please solve the new question."); generateCaptcha(); return; }
+  if (password !== confirmPassword) return showError("Passwords do not match.");
+  if (password.length < 8) return showError("Password must contain at least 8 characters.");
+  if (!terms) return showError("Please accept the Terms & Conditions.");
+
+  const button = form.querySelector('button[type="submit"]');
+  button.disabled = true;
+  button.textContent = "Creating account...";
+  try {
+    await Auth.registerUser({ name, email, phone, password });
+    message.className = "message success";
+    message.textContent = "Account created! Check your email to verify your account, then log in.";
+    form.reset();
+    generateCaptcha();
+    setTimeout(() => location.href = "login.html", 2500);
+  } catch (error) {
+    message.className = "message error";
+    message.textContent = Auth.friendlyError(error);
+  } finally {
+    button.disabled = false;
+    button.textContent = "Create Account";
+  }
+});
+
+window.openForgotPassword = () => document.getElementById("forgotModal").style.display = "flex";
+window.closeForgotPassword = () => document.getElementById("forgotModal").style.display = "none";
+
+const forgotForm = document.getElementById("forgotForm");
+if (forgotForm) {
+  forgotForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const email = document.getElementById("resetEmail").value.trim();
+    const message = document.getElementById("resetMessage");
+    try {
+      await Auth.resetPassword(email);
+      message.textContent = "If this email is registered, a password-reset email has been sent.";
+      message.className = "reset-message success";
+    } catch (error) {
+      message.textContent = Auth.friendlyError(error);
+      message.className = "reset-message error";
+    }
+  });
+}
+</script>
+
+</body>
+</html>
+```
